@@ -4,6 +4,7 @@
   </head>
   <body>
     <script src="./three.min.js"></script>
+    <script src="./movCamera.js"></script>
     <script>
       //var clock = new THREE.Clock();
       var scene, camera, renderer;
@@ -11,7 +12,7 @@
       camera = new THREE.PerspectiveCamera(60,
         window.innerWidth/window.innerHeight);
       camera.position.z = 3;
-      scene.background = new THREE.Color(0xc7c7c7);
+      //scene.background = new THREE.Color(0xc7c7c7);
       renderer = new THREE.WebGLRenderer();
       renderer.setSize(window.innerWidth,window.innerHeight);
       document.body.appendChild(renderer.domElement);
@@ -25,11 +26,6 @@
       meshFloor.position.set(50,-1.5,0);
       scene.add(meshFloor);
      
-      var animate = function(){
-        requestAnimationFrame(animate);
-        cube.rotation.x += 0.01;
-        renderer.render( scene, camera );
-      }
 
       animate();
     </script>
