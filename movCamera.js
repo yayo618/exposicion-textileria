@@ -105,19 +105,19 @@ var restringeMXPL = function (){
 
 var collide = function (){
     //restringe movimmientos camara en x z
-    if (camera.position.z<-36.75){
+    if (camera.position.z<-4.5){
 	restringeMZN ();
 	restringeMZNL ();
     }
-    if (camera.position.x<0){
+    if (camera.position.x<-9.5){
 	restringeMXN ();
 	restringeMXNL ();
     }
-    if (camera.position.z>36.75){
+    if (camera.position.z>4.5){
 	restringeMZP ();
 	restringeMZPL ();
     }
-    if (camera.position.x>43){
+    if (camera.position.x>9.5){
 	restringeMXP ();
 	restringeMXPL ();
     }
@@ -145,7 +145,7 @@ var lmovZp = function (){camera.position.z +=
 //ANIMATE
 var animate = function(){
     requestAnimationFrame(animate);
-
+    collide();
     //MOV DE CAMARA
     if (moverIzq){
 	if (lblockXn){lmovXn();}
@@ -168,3 +168,9 @@ var animate = function(){
     
     renderer.render( scene, camera );
 }
+//resize
+window.addEventListener('resize',function(){
+    renderer.setSize(window.innerWidth,window.innerHeight);
+    camera.aspect = window.innerWidth/window.innerHeight;
+    camera.updateProjectionMatrix();
+});
