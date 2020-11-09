@@ -1,3 +1,4 @@
+var keyboard = {};
 //TOUCHSCREEN
 const body = document.body;
 body.addEventListener('touchstart', startTouch, false);
@@ -38,7 +39,38 @@ function moveTouch(e){
     inY = null;
 }
 function levantaStop(){stop();}
-//TOUCHSCREEN END
+
+//TOUCHSCREEN END - MOUSE
+
+body.addEventListener('mousedown',startMouse,false);
+body.addEventListener('mouseup',levantaStop);
+body.addEventListener('click',moveMouse,false);
+
+function startMouse(e){
+    imX = e.clientX;
+    imY = e.clientY;
+
+}
+function moveMouse(e){
+    //	  if (imX === null){return;}
+    //	  if (imY === null){return;}
+    var cwX = e.clientX;
+    var cwY = e.clientY;
+    var numCl = e.which;
+
+    var x = imX - cwX;
+    var y = imY - cwY;
+
+    if (Math.abs(x)>Math.abs(y)){
+	if (x>0){stop(); rotaIz=true;}
+	else if (x<0){stop(); rotaDe=true;}
+    }
+    else{
+	if (y<0){stop(); nStopM(); moverAde=true}
+	else if (y>0){stop(); nStopM(); moverAtr=true}
+    }
+}
+//MOUSE END
 
 var moverIzq,moverDer,moverAde,moverAtr,rotaIz,rotaDe;
 var clock = new THREE.Clock();
@@ -165,6 +197,19 @@ var animate = function(){
     }
     if (rotaIz){camera.rotation.y += Math.PI*0.002;}
     if (rotaDe){camera.rotation.y -= Math.PI*0.002;}
+    //teclado
+    if (keyboard[37]){//left
+	stop(); rotaIz=true;}
+    if (keyboard[39]){//right
+	stop(); rotaDe=true;}
+    if (keyboard[87]||keyboard[38]){//w arriba
+	stop(); nStopM(); moverAde=true;}
+    if (keyboard[83]||keyboard[40]){//s abajo
+	stop(); nStopM(); moverAtr=true;}
+    if (keyboard[65]){//a
+	stop(); nStopM(); moverIzq=true;}
+    if (keyboard[68]){//d
+	stop(); nStopM(); moverDer=true;}
     
     renderer.render( scene, camera );
 }
@@ -174,3 +219,11 @@ window.addEventListener('resize',function(){
     camera.aspect = window.innerWidth/window.innerHeight;
     camera.updateProjectionMatrix();
 });
+
+//funciones del teclado
+function keyDown(event){
+    keyboard[event.keyCode] = true;}
+function keyUp(event){
+    keyboard[event.keyCode] = false; stop();}
+window.addEventListener('keydown', keyDown);
+window.addEventListener('keyup', keyUp);
